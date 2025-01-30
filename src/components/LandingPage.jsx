@@ -1,18 +1,12 @@
+// LandingPage.jsx
 const LandingPage = ({ onRoleSelect }) => {
   return (
     <>
       <div className="background-overlay"></div>
       <div className="container">
-        <div className="campus-illustration left">
-          <img src="/src/assets/campus-left.svg" alt="" />
-        </div>
-        <div className="campus-illustration right">
-          <img src="/src/assets/campus-right.svg" alt="" />
-        </div>
-
         <div className="welcome-card">
           <div className="logo">
-            <img src="/src/assets/logo.png" alt="ParkSense Logo" />
+            <img src="/logo.png" alt="ParkSense Logo" />
           </div>
           <h1 className="welcome-title">Smart Campus Parking</h1>
           <p className="welcome-text">
@@ -51,3 +45,5 @@ const LandingPage = ({ onRoleSelect }) => {
     </>
   )
 }
+
+export default LandingPage

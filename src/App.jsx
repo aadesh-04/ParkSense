@@ -9,7 +9,7 @@ function App() {
   const [selectedRole, setSelectedRole] = useState('')
 
   return (
-    <div>
+    <div className="app-container">
       {currentPage === 'landing' && (
         <LandingPage 
           onRoleSelect={(role) => {

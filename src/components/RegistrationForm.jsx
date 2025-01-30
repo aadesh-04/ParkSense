@@ -1,3 +1,6 @@
+// RegistrationForm.jsx
+import { useState } from 'react'
+
 const RegistrationForm = ({ selectedRole, onBack, onSubmitSuccess }) => {
   const [formData, setFormData] = useState({
     fullName: '',
@@ -48,15 +51,15 @@ const RegistrationForm = ({ selectedRole, onBack, onSubmitSuccess }) => {
   const validateForm = () => {
     const newErrors = {}
     
-    if (!/^[A-Za-z\s]+$/.test(formData.fullName)) {
+    if (!formData.fullName || !/^[A-Za-z\s]+$/.test(formData.fullName)) {
       newErrors.fullName = 'Please enter a valid name (letters only)'
     }
 
-    if (!/^[A-Za-z0-9]+$/.test(formData.prnNumber)) {
+    if (!formData.prnNumber || !/^[A-Za-z0-9]+$/.test(formData.prnNumber)) {
       newErrors.prnNumber = 'Please enter a valid PRN number'
     }
 
-    if (!/^[A-Z0-9\s-]+$/.test(formData.vehicleNumber.toUpperCase())) {
+    if (!formData.vehicleNumber || !/^[A-Z0-9\s-]+$/.test(formData.vehicleNumber.toUpperCase())) {
       newErrors.vehicleNumber = 'Please enter a valid vehicle registration number'
     }
 
@@ -94,7 +97,7 @@ const RegistrationForm = ({ selectedRole, onBack, onSubmitSuccess }) => {
             ← Back
           </button>
           <div className="logo">
-            <img src="/src/assets/logo.png" alt="Company Logo" />
+            <img src="/logo.png" alt="Company Logo" />
           </div>
           <h2 className="form-title">Vehicle Registration Form</h2>
           <div className="role-badge">
@@ -218,3 +221,5 @@ const RegistrationForm = ({ selectedRole, onBack, onSubmitSuccess }) => {
     </>
   )
 }
+
+export default RegistrationForm
