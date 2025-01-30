@@ -1,4 +1,3 @@
-// RegistrationForm.jsx
 import { useState } from 'react'
 
 const RegistrationForm = ({ selectedRole, onBack, onSubmitSuccess }) => {
@@ -39,7 +38,6 @@ const RegistrationForm = ({ selectedRole, onBack, onSubmitSuccess }) => {
         license: file
       }))
 
-      // Create image preview
       const reader = new FileReader()
       reader.onload = (e) => {
         setPreviewImage(e.target.result)
@@ -56,7 +54,7 @@ const RegistrationForm = ({ selectedRole, onBack, onSubmitSuccess }) => {
     }
 
     if (!formData.prnNumber || !/^[A-Za-z0-9]+$/.test(formData.prnNumber)) {
-      newErrors.prnNumber = 'Please enter a valid PRN number'
+      newErrors.prnNumber = 'Please enter a valid registration number'
     }
 
     if (!formData.vehicleNumber || !/^[A-Z0-9\s-]+$/.test(formData.vehicleNumber.toUpperCase())) {
@@ -97,7 +95,7 @@ const RegistrationForm = ({ selectedRole, onBack, onSubmitSuccess }) => {
             ← Back
           </button>
           <div className="logo">
-            <img src="/logo.png" alt="Company Logo" />
+            <img src="logo.png" alt="Company Logo" />
           </div>
           <h2 className="form-title">Vehicle Registration Form</h2>
           <div className="role-badge">
@@ -127,7 +125,7 @@ const RegistrationForm = ({ selectedRole, onBack, onSubmitSuccess }) => {
                   name="prnNumber"
                   value={formData.prnNumber}
                   onChange={handleInputChange}
-                  placeholder="Enter your PRN number"
+                  placeholder="Enter your Registration number"
                 />
                 {errors.prnNumber && <div className="error-message">{errors.prnNumber}</div>}
               </div>

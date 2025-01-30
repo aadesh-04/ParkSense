@@ -45,7 +45,6 @@
     z-index: 1;
   }
   
-  /* Welcome Card Styling */
   .welcome-card {
     background: rgba(255, 255, 255, 0.9);
     padding: 40px;
@@ -87,7 +86,6 @@
     line-height: 1.6;
   }
   
-  /* Form Card Styling */
   .form-card {
     background: rgba(255, 255, 255, 0.95);
     padding: 40px;
@@ -108,7 +106,6 @@
     background: linear-gradient(to right, var(--sage-green), var(--dark-teal));
   }
   
-  /* Logo Styling */
   .logo {
     width: 150px;
     height: 150px;
@@ -131,7 +128,6 @@
     height: auto;
   }
   
-  /* Form Elements Styling */
   .form-group {
     margin-bottom: 24px;
     position: relative;
@@ -172,8 +168,7 @@
     outline: none;
     box-shadow: 0 0 0 4px rgba(47, 87, 93, 0.1);
   }
-  
-  /* File Input Styling */
+ 
   .file-input-container {
     position: relative;
     padding: 16px;
@@ -197,7 +192,6 @@
     color: var(--medium-blue);
   }
   
-  /* Image Preview Styles */
   .image-preview {
     margin-top: 10px;
     position: relative;
@@ -234,14 +228,12 @@
     transform: scale(1.1);
   }
   
-  /* Error Message Styling */
   .error-message {
     color: #dc2626;
     font-size: 0.875rem;
     margin-top: 4px;
   }
   
-  /* Button Styling */
   .register-btn, .home-btn {
     display: inline-flex;
     align-items: center;
@@ -274,7 +266,6 @@
     transform: translateX(4px);
   }
   
-  /* Back Button Styling */
   .back-btn {
     position: absolute;
     top: 20px;
@@ -295,7 +286,6 @@
     color: var(--darkest-blue);
   }
   
-  /* Features Section */
   .features-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -327,7 +317,6 @@
     margin-bottom: 15px;
   }
   
-  /* Role Badge */
   .role-badge {
     background: var(--sage-green);
     color: white;
@@ -339,7 +328,6 @@
     text-transform: capitalize;
   }
   
-  /* Thank You Page Styles */
   .thank-you-card {
     background: rgba(255, 255, 255, 0.95);
     padding: 40px;
@@ -388,8 +376,7 @@
     margin: 10px 0;
     color: var(--dark-teal);
   }
-  
-  /* Animations */
+
   @keyframes slideUp {
     from {
       opacity: 0;
@@ -419,7 +406,6 @@
     }
   }
   
-  /* Campus Elements */
   .campus-illustration {
     position: absolute;
     width: 200px;
@@ -440,7 +426,6 @@
     transform: translateY(-50%) scaleX(-1);
   }
   
-  /* Responsive Design */
   @media (max-width: 768px) {
     .container {
       padding: 15px;

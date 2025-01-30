@@ -6,7 +6,7 @@ const LandingPage = ({ onRoleSelect }) => {
       <div className="container">
         <div className="welcome-card">
           <div className="logo">
-            <img src="/logo.png" alt="ParkSense Logo" />
+            <img src="logo.png" alt="ParkSense Logo" />
           </div>
           <h1 className="welcome-title">Smart Campus Parking</h1>
           <p className="welcome-text">
