@@ -956,3 +956,22 @@ a {
   .popup-btn:hover {
     background: #1557b0;
   }
+
+  .faculty-grid {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 900px;
+    margin: 0 auto;
+    gap: 30px;
+  }
+  
+  @media (max-width: 768px) {
+    .faculty-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .faculty-grid {
+      grid-template-columns: 1fr;
+    }
+  }

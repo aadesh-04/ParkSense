@@ -82,7 +82,7 @@ const Dashboard = ({ selectedRole }) => {
             <h3>Examination</h3>
           </a>
           <a href="#" className="module-card">
-            <img src="https://cdn-icons-png.flaticon.com/512/2558/2558383.png" alt="Feedback" className="module-icon" />
+            <img src="https://cdn-icons-png.flaticon.com/512/2007/2007707.png" alt="Feedback" className="module-icon" />
             <h3>Feedback</h3>
           </a>
           <a href="#" className="module-card">

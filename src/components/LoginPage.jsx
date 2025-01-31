@@ -5,7 +5,7 @@ const LoginPage = () => {
 
   const handleLogin = (role) => {
     localStorage.setItem('selectedRole', role)
-    navigate('/dashboard')
+    window.location.href = '/dashboard'
   }
 
   return (
@@ -41,7 +41,7 @@ const LoginPage = () => {
             onClick={() => handleLogin('faculty')} 
             className="login-btn faculty-btn"
           >
-            Login as Faculty
+            Login as Admin
           </button>
           <button 
             onClick={() => handleLogin('student')} 

@@ -1,8 +1,10 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 const RegistrationForm = ({ selectedRole }) => {
   const navigate = useNavigate()
+  const location = useLocation()
+  const registrationType = location.state?.registrationType || 'faculty'
   const [showPopup, setShowPopup] = useState(false)
 
   const [formData, setFormData] = useState({
@@ -11,9 +13,10 @@ const RegistrationForm = ({ selectedRole }) => {
     phoneNumber: '',
     vehicleNumber: '',
     gender: '',
-    vehicleType: selectedRole === 'faculty' ? '' : undefined,
+    vehicleType: registrationType === 'guest' ? undefined : '',
     license: null
   })
+  
   const [previewImage, setPreviewImage] = useState(null)
   const [fileName, setFileName] = useState('No file chosen')
   const [errors, setErrors] = useState({})
@@ -24,7 +27,6 @@ const RegistrationForm = ({ selectedRole }) => {
       ...prev,
       [name]: value
     }))
-    // Clear error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
@@ -66,9 +68,9 @@ const RegistrationForm = ({ selectedRole }) => {
     }
 
     if (!formData.prnNumber || !/^[A-Za-z0-9]+$/.test(formData.prnNumber)) {
-      newErrors.prnNumber = selectedRole === 'faculty' 
-        ? 'Please enter a valid faculty ID' 
-        : 'Please enter a valid registration number'
+      newErrors.prnNumber = registrationType === 'guest' 
+        ? 'Please enter a valid ID' 
+        : 'Please enter a valid faculty ID'
     }
 
     if (!formData.phoneNumber || !/^[0-9]{10}$/.test(formData.phoneNumber)) {
@@ -87,7 +89,7 @@ const RegistrationForm = ({ selectedRole }) => {
       newErrors.gender = 'Please select your gender'
     }
 
-    if (selectedRole === 'faculty' && !formData.vehicleType) {
+    if (registrationType !== 'guest' && !formData.vehicleType) {
       newErrors.vehicleType = 'Please select your vehicle type'
     }
 
@@ -99,7 +101,6 @@ const RegistrationForm = ({ selectedRole }) => {
     e.preventDefault()
     
     if (validateForm()) {
-      // Show success popup
       setShowPopup(true)
     }
   }
@@ -110,7 +111,11 @@ const RegistrationForm = ({ selectedRole }) => {
   }
 
   const handleBack = () => {
-    navigate('/dashboard')
+    if (registrationType === 'guest') {
+      navigate('/parking')
+    } else {
+      navigate('/dashboard')
+    }
   }
 
   return (
@@ -124,9 +129,11 @@ const RegistrationForm = ({ selectedRole }) => {
           <div className="logo">
             <img src="/vi-logo.png" alt="VI Logo" />
           </div>
-          <h2 className="form-title">Vehicle Registration Form</h2>
+          <h2 className="form-title">
+            {registrationType === 'guest' ? 'Guest Registration Form' : 'Faculty Registration Form'}
+          </h2>
           <div className="role-badge">
-            {selectedRole.charAt(0).toUpperCase() + selectedRole.slice(1)}
+            {registrationType === 'guest' ? 'Guest' : 'Faculty'}
           </div>
           
           <form onSubmit={handleSubmit}>
@@ -145,7 +152,7 @@ const RegistrationForm = ({ selectedRole }) => {
 
             <div className="form-group">
               <label htmlFor="prnNumber">
-                {selectedRole === 'faculty' ? 'Faculty ID' : 'Registration Number'}
+                {registrationType === 'guest' ? 'Guest ID' : 'Faculty ID'}
               </label>
               <input
                 type="text"
@@ -153,7 +160,7 @@ const RegistrationForm = ({ selectedRole }) => {
                 name="prnNumber"
                 value={formData.prnNumber}
                 onChange={handleInputChange}
-                placeholder={selectedRole === 'faculty' ? 'Enter your faculty ID' : 'Enter your registration number'}
+                placeholder={registrationType === 'guest' ? 'Enter guest ID' : 'Enter faculty ID'}
               />
               {errors.prnNumber && <div className="error-message">{errors.prnNumber}</div>}
             </div>
@@ -202,7 +209,7 @@ const RegistrationForm = ({ selectedRole }) => {
                 {errors.gender && <div className="error-message">{errors.gender}</div>}
               </div>
 
-              {selectedRole === 'faculty' && (
+              {registrationType !== 'guest' && (
                 <div className="form-group half">
                   <label htmlFor="vehicleType">Vehicle Type</label>
                   <select
