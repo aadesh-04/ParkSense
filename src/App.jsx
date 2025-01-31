@@ -1,36 +1,27 @@
-import { useState } from 'react'
-import LandingPage from './components/LandingPage'
+import { useState, useEffect } from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import LoginPage from './components/LoginPage'
+import Dashboard from './components/Dashboard'
 import RegistrationForm from './components/RegistrationForm'
-import ThankYouPage from './components/ThankYouPage'
-import './styles/main.css'
 
 function App() {
-  const [currentPage, setCurrentPage] = useState('landing')
   const [selectedRole, setSelectedRole] = useState('')
 
+  useEffect(() => {
+    const role = localStorage.getItem('selectedRole')
+    if (role) {
+      setSelectedRole(role)
+    }
+  }, [])
+
   return (
-    <div className="app-container">
-      {currentPage === 'landing' && (
-        <LandingPage 
-          onRoleSelect={(role) => {
-            setSelectedRole(role)
-            setCurrentPage('register')
-          }} 
-        />
-      )}
-      {currentPage === 'register' && (
-        <RegistrationForm 
-          selectedRole={selectedRole}
-          onBack={() => setCurrentPage('landing')}
-          onSubmitSuccess={() => setCurrentPage('thank-you')}
-        />
-      )}
-      {currentPage === 'thank-you' && (
-        <ThankYouPage 
-          onBackToHome={() => setCurrentPage('landing')}
-        />
-      )}
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/dashboard" element={<Dashboard selectedRole={selectedRole} />} />
+        <Route path="/registration" element={<RegistrationForm selectedRole={selectedRole} />} />
+      </Routes>
+    </Router>
   )
 }
 

@@ -1,9 +1,14 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-const RegistrationForm = ({ selectedRole, onBack, onSubmitSuccess }) => {
+const RegistrationForm = ({ selectedRole }) => {
+  const navigate = useNavigate()
+  const [showPopup, setShowPopup] = useState(false)
+
   const [formData, setFormData] = useState({
     fullName: '',
     prnNumber: '',
+    phoneNumber: '',
     vehicleNumber: '',
     gender: '',
     vehicleType: selectedRole === 'faculty' ? '' : undefined,
@@ -19,6 +24,13 @@ const RegistrationForm = ({ selectedRole, onBack, onSubmitSuccess }) => {
       ...prev,
       [name]: value
     }))
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: ''
+      }))
+    }
   }
 
   const handleFileChange = (e) => {
@@ -54,7 +66,13 @@ const RegistrationForm = ({ selectedRole, onBack, onSubmitSuccess }) => {
     }
 
     if (!formData.prnNumber || !/^[A-Za-z0-9]+$/.test(formData.prnNumber)) {
-      newErrors.prnNumber = 'Please enter a valid registration number'
+      newErrors.prnNumber = selectedRole === 'faculty' 
+        ? 'Please enter a valid faculty ID' 
+        : 'Please enter a valid registration number'
+    }
+
+    if (!formData.phoneNumber || !/^[0-9]{10}$/.test(formData.phoneNumber)) {
+      newErrors.phoneNumber = 'Please enter a valid 10-digit phone number'
     }
 
     if (!formData.vehicleNumber || !/^[A-Z0-9\s-]+$/.test(formData.vehicleNumber.toUpperCase())) {
@@ -81,9 +99,18 @@ const RegistrationForm = ({ selectedRole, onBack, onSubmitSuccess }) => {
     e.preventDefault()
     
     if (validateForm()) {
-      console.log('Form Data:', formData)
-      onSubmitSuccess()
+      // Show success popup
+      setShowPopup(true)
     }
+  }
+
+  const handlePopupOk = () => {
+    setShowPopup(false)
+    navigate('/dashboard')
+  }
+
+  const handleBack = () => {
+    navigate('/dashboard')
   }
 
   return (
@@ -91,131 +118,158 @@ const RegistrationForm = ({ selectedRole, onBack, onSubmitSuccess }) => {
       <div className="background-overlay"></div>
       <div className="container">
         <div className="form-card">
-          <button className="back-btn" onClick={onBack}>
+          <button className="back-btn" onClick={handleBack}>
             ← Back
           </button>
           <div className="logo">
-            <img src="logo.png" alt="Company Logo" />
+            <img src="/vi-logo.png" alt="VI Logo" />
           </div>
           <h2 className="form-title">Vehicle Registration Form</h2>
           <div className="role-badge">
             {selectedRole.charAt(0).toUpperCase() + selectedRole.slice(1)}
           </div>
           
-          <div className="form-container">
-            <form onSubmit={handleSubmit}>
-              <div className="form-group">
-                <label htmlFor="fullName">Full Name</label>
-                <input
-                  type="text"
-                  id="fullName"
-                  name="fullName"
-                  value={formData.fullName}
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="fullName">Full Name</label>
+              <input
+                type="text"
+                id="fullName"
+                name="fullName"
+                value={formData.fullName}
+                onChange={handleInputChange}
+                placeholder="Enter your full name"
+              />
+              {errors.fullName && <div className="error-message">{errors.fullName}</div>}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="prnNumber">
+                {selectedRole === 'faculty' ? 'Faculty ID' : 'Registration Number'}
+              </label>
+              <input
+                type="text"
+                id="prnNumber"
+                name="prnNumber"
+                value={formData.prnNumber}
+                onChange={handleInputChange}
+                placeholder={selectedRole === 'faculty' ? 'Enter your faculty ID' : 'Enter your registration number'}
+              />
+              {errors.prnNumber && <div className="error-message">{errors.prnNumber}</div>}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="phoneNumber">Phone Number</label>
+              <input
+                type="tel"
+                id="phoneNumber"
+                name="phoneNumber"
+                value={formData.phoneNumber}
+                onChange={handleInputChange}
+                placeholder="Enter your phone number"
+                pattern="[0-9]{10}"
+                maxLength="10"
+              />
+              {errors.phoneNumber && <div className="error-message">{errors.phoneNumber}</div>}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="vehicleNumber">Vehicle Registration Number</label>
+              <input
+                type="text"
+                id="vehicleNumber"
+                name="vehicleNumber"
+                value={formData.vehicleNumber}
+                onChange={handleInputChange}
+                placeholder="Enter vehicle number"
+              />
+              {errors.vehicleNumber && <div className="error-message">{errors.vehicleNumber}</div>}
+            </div>
+
+            <div className="form-row">
+              <div className="form-group half">
+                <label htmlFor="gender">Gender</label>
+                <select
+                  id="gender"
+                  name="gender"
+                  value={formData.gender}
                   onChange={handleInputChange}
-                  placeholder="Enter Your Full Name"
-                />
-                {errors.fullName && <div className="error-message">{errors.fullName}</div>}
+                >
+                  <option value="">Select Gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                </select>
+                {errors.gender && <div className="error-message">{errors.gender}</div>}
               </div>
 
-              <div className="form-group">
-                <label htmlFor="prnNumber">Registration Number</label>
-                <input
-                  type="text"
-                  id="prnNumber"
-                  name="prnNumber"
-                  value={formData.prnNumber}
-                  onChange={handleInputChange}
-                  placeholder="Enter Your Registration Number"
-                />
-                {errors.prnNumber && <div className="error-message">{errors.prnNumber}</div>}
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="vehicleNumber">Vehicle Registration Number</label>
-                <input
-                  type="text"
-                  id="vehicleNumber"
-                  name="vehicleNumber"
-                  value={formData.vehicleNumber}
-                  onChange={handleInputChange}
-                  placeholder="Enter Vehicle Number"
-                />
-                {errors.vehicleNumber && <div className="error-message">{errors.vehicleNumber}</div>}
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="license">License Image</label>
-                <div className="file-input-container">
-                  <input
-                    type="file"
-                    id="license"
-                    name="license"
-                    onChange={handleFileChange}
-                    accept="image/*"
-                  />
-                  <span className="file-name">{fileName}</span>
-                </div>
-                {previewImage && (
-                  <div className="image-preview">
-                    <img src={previewImage} alt="License preview" />
-                    <button 
-                      type="button" 
-                      className="remove-image" 
-                      onClick={() => {
-                        setPreviewImage(null)
-                        setFileName('No file chosen')
-                        setFormData(prev => ({ ...prev, license: null }))
-                      }}
-                    >
-                      ×
-                    </button>
-                  </div>
-                )}
-                {errors.license && <div className="error-message">{errors.license}</div>}
-              </div>
-
-              <div className="form-row">
+              {selectedRole === 'faculty' && (
                 <div className="form-group half">
-                  <label htmlFor="gender">Gender</label>
+                  <label htmlFor="vehicleType">Vehicle Type</label>
                   <select
-                    id="gender"
-                    name="gender"
-                    value={formData.gender}
+                    id="vehicleType"
+                    name="vehicleType"
+                    value={formData.vehicleType}
                     onChange={handleInputChange}
                   >
-                    <option value="">Select Gender</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
+                    <option value="">Select Vehicle Type</option>
+                    <option value="2wheeler">2 Wheeler</option>
+                    <option value="4wheeler">4 Wheeler</option>
                   </select>
-                  {errors.gender && <div className="error-message">{errors.gender}</div>}
+                  {errors.vehicleType && <div className="error-message">{errors.vehicleType}</div>}
                 </div>
+              )}
+            </div>
 
-                {selectedRole === 'faculty' && (
-                  <div className="form-group half">
-                    <label htmlFor="vehicleType">Vehicle Type</label>
-                    <select
-                      id="vehicleType"
-                      name="vehicleType"
-                      value={formData.vehicleType}
-                      onChange={handleInputChange}
-                    >
-                      <option value="">Select Vehicle Type</option>
-                      <option value="2wheeler">2 Wheeler</option>
-                      <option value="4wheeler">4 Wheeler</option>
-                    </select>
-                    {errors.vehicleType && <div className="error-message">{errors.vehicleType}</div>}
-                  </div>
-                )}
+            <div className="form-group">
+              <label htmlFor="license">License Image</label>
+              <div className="file-input-container">
+                <input
+                  type="file"
+                  id="license"
+                  name="license"
+                  onChange={handleFileChange}
+                  accept="image/*"
+                />
+                <span className="file-name">{fileName}</span>
               </div>
+              {previewImage && (
+                <div className="image-preview">
+                  <img src={previewImage} alt="License preview" />
+                  <button 
+                    type="button" 
+                    className="remove-image" 
+                    onClick={() => {
+                      setPreviewImage(null)
+                      setFileName('No file chosen')
+                      setFormData(prev => ({ ...prev, license: null }))
+                    }}
+                  >
+                    ×
+                  </button>
+                </div>
+              )}
+              {errors.license && <div className="error-message">{errors.license}</div>}
+            </div>
 
-              <button type="submit" className="register-btn">
-                Submit Registration
-                <span className="btn-icon">→</span>
-              </button>
-            </form>
-          </div>
+            <button type="submit" className="register-btn">
+              Submit Registration
+              <span className="btn-icon">→</span>
+            </button>
+          </form>
         </div>
       </div>
+
+      {showPopup && (
+        <div className="popup-overlay">
+          <div className="popup">
+            <h3>Success!</h3>
+            <p>Registration completed successfully</p>
+            <button onClick={handlePopupOk} className="popup-btn">
+              OK
+            </button>
+          </div>
+        </div>
+      )}
     </>
   )
 }
