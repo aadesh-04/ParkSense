@@ -112,20 +112,20 @@ const RegistrationForm = ({ selectedRole, onBack, onSubmitSuccess }) => {
                   name="fullName"
                   value={formData.fullName}
                   onChange={handleInputChange}
-                  placeholder="Enter your full name"
+                  placeholder="Enter Your Full Name"
                 />
                 {errors.fullName && <div className="error-message">{errors.fullName}</div>}
               </div>
 
               <div className="form-group">
-                <label htmlFor="prnNumber">PRN Number</label>
+                <label htmlFor="prnNumber">Registration Number</label>
                 <input
                   type="text"
                   id="prnNumber"
                   name="prnNumber"
                   value={formData.prnNumber}
                   onChange={handleInputChange}
-                  placeholder="Enter your Registration number"
+                  placeholder="Enter Your Registration Number"
                 />
                 {errors.prnNumber && <div className="error-message">{errors.prnNumber}</div>}
               </div>
@@ -138,7 +138,7 @@ const RegistrationForm = ({ selectedRole, onBack, onSubmitSuccess }) => {
                   name="vehicleNumber"
                   value={formData.vehicleNumber}
                   onChange={handleInputChange}
-                  placeholder="Enter vehicle number"
+                  placeholder="Enter Vehicle Number"
                 />
                 {errors.vehicleNumber && <div className="error-message">{errors.vehicleNumber}</div>}
               </div>
